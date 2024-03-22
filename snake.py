@@ -13,10 +13,10 @@ from turtle import *
 
 from freegames import square, vector
 
-# Define a list of five colors (excluding red)
+
 colors = ['green', 'blue', 'yellow', 'purple', 'orange']
 
-# Initialize food and snake with random colors
+
 food_color = choice(colors)
 snake_color = choice([color for color in colors if color != food_color])
 
@@ -31,10 +31,15 @@ def change(x, y):
     aim.y = y
 
 
-def inside(head):
+def inside(point):
     """Return True if head inside boundaries."""
-    return -200 < head.x < 190 and -200 < head.y < 190
+    return -200 < point.x < 190 and -200 < point.y < 190
 
+def move_food():
+    move_directions = [vector(10,0), vector(-10,0), vector(0,10), vector(0,-10)]
+    move = choice(move_directions)
+    if inside(food + move):
+         food.move(move)
 
 def move():
     """Move snake forward one segment."""
@@ -61,6 +66,7 @@ def move():
         square(body.x, body.y, 9, snake_color)
 
     square(food.x, food.y, 9, food_color)
+    move_food()
     update()
     ontimer(move, 100)
 
